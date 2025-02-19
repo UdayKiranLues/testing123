@@ -4,6 +4,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { CartList } from "../../../redux/slices/cartSlice";
 import { useParams } from "react-router-dom";
+import { authentication } from "../../../configure";
 
 const sizes = ["All", "S", "M", "L", "XL"];
 const colors = ["All", "Red", "Blue", "Green", "Yellow", "Orange", "White", "Brown", "Pink", "Navy Blue", "Grey"];
@@ -28,7 +29,7 @@ const { gender } = useParams();
 
 
   const getProductsData = () => {
-    axios.get(`http://localhost:5000/api/v1/product/list?page=0&limit=100&search=&category_uuid=${gender}`, {
+    axios.get(`${authentication?.products_list}?page=0&limit=100&search=&category_uuid=${gender}`, {
       headers : {
         "Authorization" : `Bearer ${user?.accessToken}`
       }
