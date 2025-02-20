@@ -8,21 +8,8 @@ export default function FashionBanner() {
 
     return (
         <div className="relative flex flex-col lg:flex-row items-center justify-center min-h-screen bg-[#fbe8e5] px-6">
-            {/* Left Model */}
-            <div className="relative lg:absolute lg:left-10 bottom-0 mb-6 lg:mb-0">
-                <div className="relative">
-                    <div className="absolute -z-10 top-[-20px] left-5 w-24 h-24 lg:w-32 lg:h-32 bg-red-500 rounded-full"></div>
-                    <img
-                        onClick={() => navigate('/user/products/CAT-58A965CC')}
-                        src={maleModel}
-                        alt="Male Model"
-                        className="h-[400px] lg:h-[600px] object-contain cursor-pointer"
-                    />
-                </div>
-            </div>
-
-            {/* Content */}
-            <div className="text-center max-w-2xl z-10">
+            {/* Content - Always Centered */}
+            <div className="text-center max-w-2xl z-10 mb-6 lg:mb-0">
                 <h2 className="text-2xl lg:text-3xl font-semibold text-gray-800">Find Your Style</h2>
                 <h1 className="text-4xl lg:text-5xl font-bold text-red-500">With Yourself</h1>
                 <p className="mt-4 text-gray-600">
@@ -31,15 +18,27 @@ export default function FashionBanner() {
                 </p>
             </div>
 
-            {/* Right Model */}
-            <div className="relative lg:absolute lg:right-10 bottom-0 mt-6 lg:mt-0">
-                <div className="relative">
-                    <div className="absolute -z-10 top-[-20px] right-5 w-24 h-24 lg:w-32 lg:h-32 bg-red-500 rounded-full"></div>
+            {/* Images - Stack in Mobile, Left & Right in Desktop */}
+            <div className="flex flex-row lg:flex-col justify-center gap-4 w-full lg:w-auto">
+                {/* Left Model (Absolute on Desktop) */}
+                <div className="relative lg:absolute lg:left-10 bottom-0">
+                    <div className="absolute -z-10 top-[-20px] left-5 w-16 h-16 lg:w-32 lg:h-32 bg-red-500 rounded-full"></div>
+                    <img
+                        onClick={() => navigate('/user/products/CAT-58A965CC')}
+                        src={maleModel}
+                        alt="Male Model"
+                        className="h-[250px] lg:h-[600px] object-contain cursor-pointer"
+                    />
+                </div>
+
+                {/* Right Model (Absolute on Desktop) */}
+                <div className="relative lg:absolute lg:right-10 bottom-0">
+                    <div className="absolute -z-10 top-[-20px] right-5 w-16 h-16 lg:w-32 lg:h-32 bg-red-500 rounded-full"></div>
                     <img
                         onClick={() => navigate('/user/products/CAT-57EA31AE')}
                         src={femaleModel}
                         alt="Female Model"
-                        className="h-[400px] lg:h-[600px] object-contain cursor-pointer"
+                        className="h-[250px] lg:h-[600px] object-contain cursor-pointer"
                     />
                 </div>
             </div>

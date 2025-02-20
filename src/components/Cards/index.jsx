@@ -6,120 +6,116 @@ import { CartList } from "../../redux/slices/cartSlice";
 import { useNavigate } from "react-router-dom";
 
 const ProductCard = ({ productData }) => {
-
-    const { CartListData } = useSelector((state) => state.cart)
-    const { user } = useSelector((state) => state.auth)
-
+    const { CartListData } = useSelector((state) => state.cart);
+    const { user } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    console.log(CartListData, "CartListData")
-
-
     const addtoCart = (data) => {
-
-        console.log(data, "data", user)
-
         const payload = {
             item_uuid: data.uuid,
             user_uuid: user?.user?.uuid,
             quantity: 1
-        }
+        };
         axios.post(authentication.cart_add, payload, {
             headers: {
-                "Authorization": `Bearer ${user?.accessToken}`
+                Authorization: `Bearer ${user?.accessToken}`
             }
         })
-            .then((res) => {
+            .then(() => {
                 dispatch(CartList({ user_uuid: user?.user?.uuid }, user?.accessToken));
             })
             .catch((err) => {
-                console.log(err.response)
-            })
-    }
+                console.log(err.response);
+            });
+    };
 
     const cartUpdate = (data, quantity) => {
-
-        console.log(data, "data", user)
-
         const payload = {
             item_uuid: data.uuid,
             user_uuid: user?.user?.uuid,
             quantity: quantity
-        }
+        };
         axios.post(authentication.cart_add, payload, {
             headers: {
-                "Authorization": `Bearer ${user?.accessToken}`
+                Authorization: `Bearer ${user?.accessToken}`
             }
         })
-            .then((res) => {
+            .then(() => {
                 dispatch(CartList({ user_uuid: user?.user?.uuid }, user?.accessToken));
             })
             .catch((err) => {
-                console.log(err.response)
-            })
-    }
+                console.log(err.response);
+            });
+    };
 
-    const cartItem = CartListData?.find((item) => item.item_uuid === productData.uuid)
+    const cartItem = CartListData?.find((item) => item.item_uuid === productData.uuid);
+
     return (
-        <div className="max-w-xs mx-auto p-4 cursor-pointer" key={productData?.uuid}  >
-            <div className="relative bg-blue-500 text-white rounded-2xl shadow-lg overflow-hidden p-6 text-center">
-                {/* Blurred Hoodie Image */}
-                <div className="absolute inset-0">
-                    <img
-                        src={productData?.image} // Replace with actual hoodie image
-                        alt="Man Hoodie"
-                        className="w-full h-70 object-cover blur-md opacity-50"
-                    />
-                </div>
+        <div className="p-2 w-full md:w-full">
+            {/* Product Container */}
+            <div className="relative text-center sm:text-left md:w-full">
+                {/* Image - Full Width on Desktop */}
+                <img
+                    onClick={() => navigate(`/user/product/view/${productData?.uuid}`, {
+                        state: productData
+                    })}
+                    src={productData?.image}
+                    alt={productData?.name}
+                    className="w-32 h-32 sm:w-24 sm:h-24 md:w-full md:h-64 object-cover rounded-lg shadow-md cursor-pointer"
+                />
 
-                {/* Content Overlay */}
-                <div className="relative z-10">
-                    <img
+                {/* Product Details */}
+                <div className="mt-2 md:w-full">
+                    {/* Name - One Line */}
+                    <h3 className="text-lg sm:text-sm font-semibold truncate cursor-pointer"
                         onClick={() => navigate(`/user/product/view/${productData?.uuid}`, {
                             state: productData
                         })}
-                        src={productData?.image} // Replace with actual hoodie image
-                        alt="Man Hoodie"
-                        className="w-full h-70 object-cover"
-                    />
-                    <h3 className="text-xl font-bold">{productData?.name}</h3>
-                    <p className="text-sm mt-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    >
+                        {productData?.name}
+                    </h3>
 
-                    {/* Sizes */}
-                    <div className="mt-3 text-sm font-medium tracking-wide">
-                        {productData?.size}
-                    </div>
+                    {/* Description - Two Lines */}
+                    <p className="text-sm sm:text-xs text-gray-600 line-clamp-2 cursor-pointer"
+                        onClick={() => navigate(`/user/product/view/${productData?.uuid}`, {
+                            state: productData
+                        })}
+                    >
+                        {productData?.description || "Premium quality product for everyday use."}
+                    </p>
 
-                    {/* Price */}
-                    <p className="text-lg font-semibold mt-2">${productData?.price}</p>
+                    {/* Price - On New Line */}
+                    <p className="text-lg sm:text-sm font-bold mt-1">${productData?.price}</p>
 
                     {/* Add to Cart Button */}
-                    {cartItem ?
-                        <div class="inline-flex rounded-md shadow-xs" role="group">
+                    {cartItem ? (
+                        <div className="inline-flex rounded-lg bg-white text-black mt-3">
                             <button
                                 onClick={() => cartUpdate(productData, -1)}
-                                type="button" class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-s-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white">
+                                className="px-4 py-2 sm:px-3 sm:py-1 md:px-4 md:py-2 font-medium border-r rounded-l-lg hover:bg-gray-200 sm:text-xs">
                                 -
                             </button>
-                            &nbsp;
-                            <button type="button" class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-t border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white">
-                                {cartItem.quantity}
-                            </button>
-                            &nbsp;
+                            <span className="px-4 py-2 sm:px-3 sm:py-1 md:px-4 md:py-2 sm:text-xs">{cartItem.quantity}</span>
                             <button
                                 onClick={() => cartUpdate(productData, 1)}
-                                type="button" class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-e-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white">
+                                className="px-4 py-2 sm:px-3 sm:py-1 md:px-4 md:py-2 font-medium border-l rounded-r-lg hover:bg-gray-200 sm:text-xs">
                                 +
                             </button>
                         </div>
-                        :
-                        <button
-                            onClick={() => addtoCart(productData)}
-                            className="mt-4 bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-2 px-4 rounded-lg shadow-md transition">
-                            ADD TO CART
-                        </button>
-                    }
+                    ) : (
+<button
+    onClick={() => addtoCart(productData)}
+    className="mt-4 bg-yellow-500 hover:bg-yellow-600 text-black font-bold 
+               px-5 py-2 text-base 
+               sm:px-2 sm:py-1 sm:text-xs
+               md:px-5 md:py-2 md:text-sm 
+               rounded-lg shadow-lg transition">
+    ADD
+</button>
+
+
+                    )}
                 </div>
             </div>
         </div>
