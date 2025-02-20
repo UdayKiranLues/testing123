@@ -10,9 +10,11 @@ const sizes = ["All", "S", "M", "L", "XL"];
 const colors = ["All", "Red", "Blue", "Green", "Yellow", "Orange", "White", "Brown", "Pink", "Navy Blue", "Grey"];
 const priceRanges = [
   { label: "All", min: 0, max: Infinity },
-  { label: "Under $50", min: 0, max: 50 },
-  { label: "$50 - $100", min: 50, max: 100 },
-  { label: "$100 - $150", min: 100, max: 150 },
+  { label: "Under $100", min: 0, max: 99 },
+  { label: "$100 - $500", min: 100, max: 500 },
+  { label: "$500 - $750", min: 500, max: 750 },
+  { label: "$750 - $1000", min: 750, max: 1000 },
+  { label: "$1000 + ", min: 1001, max: Infinity },
 ];
 
 const ProductList = () => {
